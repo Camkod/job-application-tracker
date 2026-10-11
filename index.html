@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap 5 Website Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #212529, #495057);
+        }
+
+        .hero h1 {
+            font-weight: 700;
+        }
+
+        .hero p {
+            margin-bottom: 0;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border-color: #343a40;
+        }
+
+        .btn-primary:hover {
+            background-color: #212529;
+            border-color: #212529;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="p-5 text-white text-center hero">
+        <h1>Job Application Tracker</h1>
+        <p>Keep track of your job applications in one place.</p>
+    </div>
+
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#">JobTrack</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#applications">Applications</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#add">Add Application</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tips">Find Jobs</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+
+        <div class="row">
+
+
+
+            <!-- Job Search -->
+            <div class="col-sm-4">
+                <h2>Job Search</h2>
+                <p>Track your applications and stay organized during your job search.</p>
+
+                <h3 class="mt-4">Application Status</h3>
+
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Applied
+                        <span class="badge bg-secondary rounded-pill" id="appliedCount">1</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Interview
+                        <span class="badge bg-warning text-dark rounded-pill" id="interviewCount">1</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Offer
+                        <span class="badge bg-success rounded-pill" id="offerCount">0</span>
+                    </li>
+                </ul>
+
+                <hr class="d-sm-none">
+            </div>
+
+            <!-- My Applications -->
+            <div class="col-sm-8" id="applications">
+                <h2>My Applications</h2>
+                <p>Here you can see your current job applications.</p>
+
+                <div id="applicationList">
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">UX/UI Designer</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Example Company</h6>
+                            <p class="card-text">Status: Applied</p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">Junior Web Developer</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Tech Company</h6>
+                            <p class="card-text">Status: Interview</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add Application -->
+        <div class="row mt-5" id="add">
+            <div class="col-12">
+                <h2>Add Application</h2>
+                <p>Add a new job application to your tracker.</p>
+
+                <form id="applicationForm">
+
+                    <div class="mb-3">
+                        <label for="company" class="form-label">Company</label>
+                        <input type="text" class="form-control" id="company" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="position" class="form-label">Position</label>
+                        <input type="text" class="form-control" id="position" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status">
+                            <option>Applied</option>
+                            <option>Interview</option>
+                            <option>Offer</option>
+                            <option>Rejected</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Add Application
+                    </button>
+
+                </form>
+            </div>
+        </div>
+        <!-- Jobs from external JSON API -->
+        <div class="row mt-5" id="tips">
+            <div class="col-12">
+                <h2>Find Jobs</h2>
+                <p>Explore current job opportunities.</p>
+
+                <div id="jobList">
+                    <p>Loading jobs...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-5 p-4 bg-dark text-white text-center">
+        <p>Job Application Tracker | 2026</p>
+    </div>
+
+    <!-- Add a new job application -->
+    <script>
+        document.getElementById("applicationForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const company = document.getElementById("company").value;
+            const position = document.getElementById("position").value;
+            const status = document.getElementById("status").value;
+
+            // Create a Bootstrap card for the new application
+            const newApplication = `
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">${position}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">${company}</h6>
+                    <p class="card-text">Status: ${status}</p>
+                </div>
+            </div>
+        `;
+            // Update the application status counters
+            document.getElementById("applicationList").innerHTML += newApplication;
+
+            if (status === "Applied") {
+                const count = document.getElementById("appliedCount");
+                count.textContent = Number(count.textContent) + 1;
+            }
+
+            if (status === "Interview") {
+                const count = document.getElementById("interviewCount");
+                count.textContent = Number(count.textContent) + 1;
+            }
+
+            if (status === "Offer") {
+                const count = document.getElementById("offerCount");
+                count.textContent = Number(count.textContent) + 1;
+            }
+
+            document.getElementById("applicationForm").reset();
+        });
+    </script>
+
+    <script>
+        // Fetch job listings from an external API
+        fetch("https://www.arbeitnow.com/api/job-board-api")
+            .then(response => response.json())
+            .then(data => {
+                const jobList = document.getElementById("jobList");
+                jobList.innerHTML = "";
+
+                data.data.slice(0, 5).forEach(job => {
+                    jobList.innerHTML += `
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">${job.title}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">${job.company_name}</h6>
+                    <p class="card-text">${job.location}</p>
+                </div>
+            </div>
+        `;
+                });
+            })
+            .catch(error => {
+                console.error("Error loading jobs:", error);
+            });
+    </script>
+
+</body>
+
+</html>
